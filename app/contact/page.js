@@ -19,6 +19,7 @@ export default function Contact() {
     service: '',
     message: '',
   });
+  const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState(''); // 'sending', 'success', 'error'
 
   //   const handleSubmit = async (e) => {
@@ -46,6 +47,12 @@ export default function Contact() {
   //   Since we're going static, the API route needs to become a separate Lambda. Update your contact page to call the Lambda directly
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Honeypot check: if filled, silently fail
+    if (honeypot) {
+      return;
+    }
+
     setStatus('sending');
 
     try {
@@ -61,6 +68,7 @@ export default function Contact() {
       if (response.ok) {
         setStatus('success');
         setFormData({ name: '', email: '', service: '', message: '' });
+        setHoneypot('');
       } else {
         setStatus('error');
       }
@@ -161,6 +169,16 @@ export default function Contact() {
             }}
           />
         </div>
+
+        <input
+          type='text'
+          name='website'
+          style={{ display: 'none' }}
+          tabIndex='-1'
+          autoComplete='off'
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
 
         <div>
           <label
