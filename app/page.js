@@ -1,5 +1,3 @@
-import Head from 'next/head';
-
 const brandColors = {
   primary: '#1a2238', // deep blue
   accent: '#9daaf2', // soft blue
@@ -12,22 +10,10 @@ const brandColors = {
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>
-          Evan Marshall Tech Services | Honest Tech Support & Custom Gaming PCs
-        </title>
-        <meta
-          name='description'
-          content='Honest tech support for homeowners in Kentville & Annapolis Valley. Custom PCs, home media centers, computer repair—no up sells, just solutions that work. 15+ years experience.'
-        />
-        <meta
-          name='keywords'
-          content='Evan Marshall Tech Services, tech support, Kentville, Annapolis Valley, custom PC, media centre, computer repair, gaming setup, emulation'
-        />
-      </Head>
       <main style={{ background: brandColors.background, minHeight: '100vh' }}>
         {/* Hero Section */}
         <section
+          aria-labelledby='hero-heading'
           className='w-full py-20'
           style={{
             background: `linear-gradient(90deg, ${brandColors.primary} 60%, ${brandColors.accent} 100%)`,
@@ -35,6 +21,7 @@ export default function Home() {
         >
           <div className='container mx-auto px-4 text-center'>
             <h1
+              id='hero-heading'
               className='text-5xl font-extrabold mb-6'
               style={{ color: brandColors.highlight }}
             >
@@ -63,53 +50,14 @@ export default function Home() {
             >
               Get Started
             </a>
-
-            {/* <div
-              className='mt-8 mx-auto max-w-md p-6 rounded-xl shadow-md border'
-              style={{
-                background: brandColors.card,
-                color: brandColors.accent,
-              }}
-            >
-              <h3
-                className='text-xl font-semibold mb-2'
-                style={{ color: brandColors.highlight }}
-              >
-                Contact Information
-              </h3>
-              <div className='mb-1'>Evan Marshall</div>
-              <div className='mb-1'>
-                Phone:{' '}
-                <a
-                  href='tel:+19025551234'
-                  style={{
-                    color: brandColors.highlight,
-                    textDecoration: 'underline',
-                  }}
-                >
-                  (902) 555-1234
-                </a>
-              </div>
-              <div>
-                Email:{' '}
-                <a
-                  href='mailto:me@evanmarshall.dev'
-                  style={{
-                    color: brandColors.highlight,
-                    textDecoration: 'underline',
-                  }}
-                >
-                  me@evanmarshall.dev
-                </a>
-              </div>
-            </div> */}
           </div>
         </section>
 
         {/* Services Overview */}
-        <section className='py-20'>
+        <section aria-labelledby='services-heading' className='py-20'>
           <div className='container mx-auto px-4'>
             <h2
+              id='services-heading'
               className='text-3xl font-bold text-center mb-12'
               style={{ color: brandColors.primary }}
             >

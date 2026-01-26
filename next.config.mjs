@@ -4,6 +4,8 @@ const nextConfig = {
   images: {
     unoptimized: true, // S3 can't do dynamic image optimization
   },
+  compress: true,
+  poweredByHeader: false,
   trailingSlash: true, // Better for S3 hosting (creates index.html in folders)
 };
 
