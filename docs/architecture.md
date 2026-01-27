@@ -1,16 +1,17 @@
 # Architecture: Service Website MVP
 
-![Phase 1 Architecture Diagram](./images/mermaid-diagram-2026-01-26-200921.png)
+![Phase 1 Architecture Diagram](./images/Tech%20Services%20Website%20Architecture.svg)
 
 ## Skills Breakdown
 
 - DevOps:
-  - Serverless architecture (No server management and auto-scaling)
+  - API gateway + Lambda: Serverless REST API architecture (No server management and auto-scaling)
+  - S3 + Cloudfront static hosting and CDN global content delivery, respectively
   - Infrastructure as code (Stretch goal to use AWS CDK)
   - Separation of concerns (Static content (S3 Bucket) vs dynamic API (Contact Form))
   - Cost Optimized (Pay only for what you use)
 - Machine Learning (ML):
-  - API gateway pattern to expose ML models
+  - API gateway pattern to expose ML models (API Gateway -> Lambda -> ML Model)
   - Lambda for model inference endpoints
   - Scalable to allow adding a recommendation engine
 
@@ -33,3 +34,14 @@
   - Payment processing
   - Booking system
   - Blog/CMS
+
+## Setup
+
+1. Makes sure node.js and npm are installed
+2. Install AWS CLI: `Windows: Download from aws.amazon.com/cli` `Mac: brew install awscli`
+3. Verify AWS CLI: `aws --version`
+4. Configure AWS CLI:
+
+```bash
+aws configure
+```
