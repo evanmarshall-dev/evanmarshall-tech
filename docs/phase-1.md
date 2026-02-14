@@ -1,4 +1,6 @@
-# Architecture: Service Website MVP
+# Tech Services Website
+
+## Architecture
 
 ![Phase 1 Architecture Diagram](./images/Tech%20Services%20Website%20Architecture.svg)
 
@@ -45,3 +47,9 @@
 ```bash
 aws configure
 ```
+
+### Required for AWS Configure
+
+**_AWS Access Key_**:
+
+- Login to AWS Console at [aws.amazon](https://us-east-1.console.aws.amazon.com/console/home?nc2=h_uta_mc&region=us-east-1#)
