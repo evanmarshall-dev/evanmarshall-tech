@@ -1,0 +1,86 @@
+# .github/workflows/deploy.yml
+#
+# Deploys the static site to AWS S3 + CloudFront on push to main.
+#
+# Prerequisites:
+# 1. Create an S3 bucket with static website hosting enabled.
+# 2. Create a CloudFront distribution pointing to the S3 bucket.
+# 3. Add the following secrets to your GitHub repo:
+#    - AWS_ACCESS_KEY_ID
+#    - AWS_SECRET_ACCESS_KEY
+#    - AWS_S3_BUCKET (e.g., evanmarshall-tech-services-2026)
+#    - AWS_CF_DISTRIBUTION (CloudFront distribution ID)
+#    - AWS_REGION (e.g., us-east-1)
+
+name: Deploy to AWS
+
+on:
+  push:
+    branches: [main]
+
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build static export
+        run: pnpm build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync out/ s3://${{ secrets.AWS_S3_BUCKET }} \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "*.html" \
+            --exclude "*.json"
+
+          # HTML files get short cache (so updates propagate quickly)
+          aws s3 sync out/ s3://${{ secrets.AWS_S3_BUCKET }} \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --exclude "*" \
+            --include "*.html" \
+            --content-type "text/html"
+
+          # JSON files (Next.js route manifests) get short cache with correct type
+          aws s3 sync out/ s3://${{ secrets.AWS_S3_BUCKET }} \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --exclude "*" \
+            --include "*.json" \
+            --content-type "application/json"
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.AWS_CF_DISTRIBUTION }} \
+            --paths "/*"

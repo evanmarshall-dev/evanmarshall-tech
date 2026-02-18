@@ -31,7 +31,7 @@ export default function Home() {
               className='text-2xl font-semibold mb-6'
               style={{ color: brandColors.accent }}
             >
-              Honest Tech Support for Your Home
+              Tech Made Simple. Bills Made Smaller.
             </h2>
             <p className='text-xl mb-4 text-white'>
               Need a custom gaming PC, a home media server, or just someone to
