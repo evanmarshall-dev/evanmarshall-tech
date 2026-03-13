@@ -1,0 +1,4 @@
+{
+  "httpMethod": "POST",
+  "body": "{\"name\":\"Test User\",\"email\":\"test@example.com\",\"service\":\"IT Support\",\"message\":\"Test message from Lambda\"}"
+}
